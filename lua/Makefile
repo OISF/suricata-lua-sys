@@ -6,13 +6,13 @@
 # Your platform. See PLATS for possible values.
 PLAT= guess
 
-CC= gcc -std=gnu99
+CC?= gcc
 CFLAGS= -O2 -Wall -Wextra -DLUA_COMPAT_5_3 $(SYSCFLAGS) $(MYCFLAGS)
 LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
 LIBS= -lm $(SYSLIBS) $(MYLIBS)
 
-AR= ar rcu
-RANLIB= ranlib
+AR?= ar
+RANLIB?= ranlib
 RM= rm -f
 UNAME= uname
 
@@ -57,14 +57,14 @@ o:	$(ALL_O)
 a:	$(ALL_A)
 
 $(LUA_A): $(BASE_O)
-	$(AR) $@ $(BASE_O)
+	$(AR) rcu $@ $(BASE_O)
 	$(RANLIB) $@
 
 $(LUA_T): $(LUA_O) $(LUA_A)
-	$(CC) -o $@ $(LDFLAGS) $(LUA_O) $(LUA_A) $(LIBS)
+	$(CC) -std=gnu99 -o $@ $(LDFLAGS) $(LUA_O) $(LUA_A) $(LIBS)
 
 $(LUAC_T): $(LUAC_O) $(LUA_A)
-	$(CC) -o $@ $(LDFLAGS) $(LUAC_O) $(LUA_A) $(LIBS)
+	$(CC) -std=gnu99 -o $@ $(LDFLAGS) $(LUAC_O) $(LUA_A) $(LIBS)
 
 test:
 	./$(LUA_T) -v
@@ -73,7 +73,7 @@ clean:
 	$(RM) $(ALL_T) $(ALL_O)
 
 depend:
-	@$(CC) $(CFLAGS) -MM l*.c
+	@$(CC) -std=gnu99 $(CFLAGS) -MM l*.c
 
 echo:
 	@echo "PLAT= $(PLAT)"
@@ -133,7 +133,7 @@ Darwin macos macosx:
 
 mingw:
 	$(MAKE) "LUA_A=lua54.dll" "LUA_T=lua.exe" \
-	"AR=$(CC) -shared -o" "RANLIB=strip --strip-unneeded" \
+	"AR=$(CC) -std=gnu99 -shared -o" "RANLIB=strip --strip-unneeded" \
 	"SYSCFLAGS=-DLUA_BUILD_AS_DLL" "SYSLIBS=" "SYSLDFLAGS=-s" lua.exe
 	$(MAKE) "LUAC_T=luac.exe" luac.exe
 
@@ -148,13 +148,13 @@ SunOS solaris:
 
 # Compiler modules may use special flags.
 llex.o:
-	$(CC) $(CFLAGS) $(CMCFLAGS) -c llex.c
+	$(CC) -std=gnu99 $(CFLAGS) $(CMCFLAGS) -c llex.c
 
 lparser.o:
-	$(CC) $(CFLAGS) $(CMCFLAGS) -c lparser.c
+	$(CC) -std=gnu99 $(CFLAGS) $(CMCFLAGS) -c lparser.c
 
 lcode.o:
-	$(CC) $(CFLAGS) $(CMCFLAGS) -c lcode.c
+	$(CC) -std=gnu99 $(CFLAGS) $(CMCFLAGS) -c lcode.c
 
 # DO NOT DELETE
 
