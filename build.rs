@@ -39,6 +39,9 @@ fn main() {
         env::var("CFLAGS").unwrap_or_default()
     ));
 
+    // We only want the libary, not the tool.
+    command.arg("a");
+
     // Don't inherit parent MAKEFLAGS, they may not be suitable for
     // this build.
     command.env_remove("MAKEFLAGS");
