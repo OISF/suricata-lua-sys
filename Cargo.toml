@@ -1,7 +1,7 @@
 [package]
 name = "suricata-lua-sys"
 description = "Vendored Lua for Suricata"
-version = "0.1.0-alpha.6"
+version = "0.1.0-alpha.7"
 edition = "2021"
 rust-version = "1.56.0"
 license = "MIT"
