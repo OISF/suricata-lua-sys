@@ -33,10 +33,11 @@ fn main() {
     }
 
     // -fPIC is required for building into a shared library; also
-    // pass-through CFLAGS to MYCFLAGS.
+    // pass-through CFLAGS and SURICATA_LUA_SYS_CFLAGS to MYCFLAGS.
     command.arg(format!(
-        "MYCFLAGS=-fPIC {}",
-        env::var("CFLAGS").unwrap_or_default()
+        "MYCFLAGS=-fPIC {} {}",
+        env::var("CFLAGS").unwrap_or_default(),
+        env::var("SURICATA_LUA_SYS_CFLAGS").unwrap_or_default()
     ));
 
     // We only want the libary, not the tool.
@@ -52,6 +53,7 @@ fn main() {
     }
 
     println!("cargo:rerun-if-env-changed=SURICATA_LUA_SYS_HEADER_DST");
+    println!("cargo:rerun-if-env-changed=SURICATA_LUA_SYS_CFLAGS");
     println!("cargo:rerun-if-env-changed=CFLAGS");
 
     println!("cargo:rustc-link-lib=static=lua");
