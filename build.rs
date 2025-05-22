@@ -40,7 +40,7 @@ fn main() {
         env::var("SURICATA_LUA_SYS_CFLAGS").unwrap_or_default()
     ));
 
-    // We only want the libary, not the tool.
+    // We only want the library, not the tool.
     command.arg("a");
 
     // Don't inherit parent MAKEFLAGS, they may not be suitable for
